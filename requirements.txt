@@ -1,0 +1,4 @@
+requests>=2.31.0
+python-dotenv>=1.0.1
+groq>=0.11.0
+pypdf>=5.0.0
