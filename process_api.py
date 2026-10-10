@@ -73,6 +73,7 @@ def validate_table_name(table_name: str):
         raise RuntimeError("Invalid table name configuration.")
 
 
+
 def fetch_table_record(
     table_name: str,
     selected_columns: str,
@@ -91,6 +92,7 @@ def fetch_table_record(
         params={
             "select": selected_columns,
             filter_column: f"eq.{filter_value}",
+            "order": "created_at.desc",
             "limit": "1",
         },
         timeout=30,
