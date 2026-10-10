@@ -6,7 +6,7 @@ import logging
 import re
 from io import BytesIO
 from typing import Any
-
+from fastapi.responses import Response
 import requests
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
@@ -732,4 +732,21 @@ def extract_esg_report(request: ESGReportRequest):
         "created_at": record.get("created_at"),
         "json_saved": True,
         "report_json": report_json,
+    }
+
+
+@app.get("/fetch-report-pdf")
+def fetch_report_pdf(report_name: str):
+    """
+    Return the PDF URL stored in the latest matching ESG record.
+    """
+    check_configuration()
+
+    record = fetch_latest_esg_record(report_name)
+
+    return {
+        "success": True,
+        "report_id": record["id"],
+        "report_name": record.get("report_name"),
+        "pdf_url": record["url"],
     }
