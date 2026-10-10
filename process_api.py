@@ -41,8 +41,7 @@ def health():
 
 
 @app.post("/extract")
-def extract(request: ExtractRequest, x_api_key: Optional[str] = Header(default=None)):
-    check_api_key(x_api_key)
+def extract(request: ExtractRequest):
     try:
         return extract_employee_data(request.company_name.strip())
     except ValueError as exc:
@@ -50,4 +49,7 @@ def extract(request: ExtractRequest, x_api_key: Optional[str] = Header(default=N
     except EmployeeAgentError as exc:
         raise HTTPException(status_code=502, detail=str(exc)) from exc
     except Exception:
-        raise HTTPException(status_code=500, detail="Unexpected employee extraction error.")
+        raise HTTPException(
+            status_code=500,
+            detail="Unexpected employee extraction error."
+        )
